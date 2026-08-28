@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HydraSense | Intelligent Water Monitor</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #080b12;
+            --panel: rgba(20, 24, 35, 0.78);
+            --panel-light: rgba(255,255,255,0.055);
+
+            --text: #f3f7fb;
+            --muted: #8993a4;
+
+            --aqua: #62e7ff;
+            --blue: #4b9cff;
+            --purple: #9b7cff;
+
+            --green: #55e6ae;
+            --yellow: #ffd36a;
+            --red: #ff6472;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                "Segoe UI",
+                Inter,
+                Arial,
+                sans-serif;
+
+            color: var(--text);
+
+            background:
+
+                radial-gradient(
+                    circle at 15% 10%,
+                    rgba(98,231,255,.13),
+                    transparent 25%
+                ),
+
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(155,124,255,.13),
+                    transparent 28%
+                ),
+
+                radial-gradient(
+                    circle at 60% 100%,
+                    rgba(75,156,255,.08),
+                    transparent 30%
+                ),
+
+                var(--bg);
+
+            overflow-x: hidden;
+        }
+
+
+        body::after {
+
+            content: "";
+
+            position: fixed;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            background:
+
+                linear-gradient(
+                    115deg,
+                    transparent 0%,
+                    rgba(255,255,255,.018) 50%,
+                    transparent 100%
+                );
+
+            animation: atmosphere 10s infinite linear;
+        }
+
+
+        @keyframes atmosphere {
+
+            0% {
+                transform: translateX(-30%);
+            }
+
+            100% {
+                transform: translateX(30%);
+            }
+        }
+
+
+        .container {
+
+            width: min(1450px, 94%);
+
+            margin: auto;
+
+            padding: 28px 0 40px;
+        }
+
+
+        /* HEADER */
+
+        header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 18px 22px;
+
+            margin-bottom: 20px;
+
+            border:
+
+                1px solid
+                rgba(255,255,255,.09);
+
+            border-radius: 22px;
+
+            background:
+                rgba(17,21,31,.72);
+
+            backdrop-filter: blur(20px);
+
+            box-shadow:
+                0 25px 70px rgba(0,0,0,.25);
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+        }
+
+
+        .brand-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 15px;
+
+            font-size: 23px;
+
+            background:
+
+                linear-gradient(
+                    145deg,
+                    rgba(98,231,255,.18),
+                    rgba(155,124,255,.18)
+                );
+
+            border:
+                1px solid
+                rgba(98,231,255,.16);
+
+            box-shadow:
+                0 0 35px
+                rgba(98,231,255,.10);
+        }
+
+
+        .brand h1 {
+
+            font-size: 21px;
+
+            letter-spacing: .2px;
+        }
+
+
+        .brand p {
+
+            margin-top: 4px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+
+        .system {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding: 9px 13px;
+
+            border-radius: 30px;
+
+            background:
+                rgba(85,230,174,.055);
+
+            border:
+                1px solid
+                rgba(85,230,174,.16);
+
+            color: var(--green);
+
+            font-size: 10px;
+
+            letter-spacing: 1px;
+        }
+
+
+        .system-dot {
+
+            width: 8px;
+
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: var(--green);
+
+            box-shadow:
+                0 0 15px
+                var(--green);
+
+            animation: pulse 2s infinite;
+        }
+
+
+        @keyframes pulse {
+
+            0%,100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: .4;
+                transform: scale(.7);
+            }
+        }
+
+
+        /* LAYOUT */
+
+        .dashboard {
+
+            display: grid;
+
+            grid-template-columns:
+                1.15fr .85fr;
+
+            gap: 20px;
+        }
+
+
+        .panel {
+
+            border:
+                1px solid
+                rgba(255,255,255,.08);
+
+            border-radius: 24px;
+
+            background:
+                var(--panel);
+
+            backdrop-filter:
+                blur(20px);
+
+            box-shadow:
+                0 25px 80px
+                rgba(0,0,0,.28);
+        }
+
+
+        .panel-title {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 20px 22px 0;
+        }
+
+
+        .panel-title h2 {
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .small-label {
+
+            color: var(--muted);
+
+            font-size: 9px;
+
+            letter-spacing: 1.3px;
+        }
+
+
+        /* TANK PANEL */
+
+        .tank-panel {
+
+            min-height: 610px;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        .tank-panel::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 350px;
+
+            height: 350px;
+
+            top: 80px;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(98,231,255,.09),
+                    transparent 65%
+                );
+
+            pointer-events: none;
+        }
+
+
+        .tank-area {
+
+            height: 455px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            position: relative;
+        }
+
+
+        /* TANK */
+
+        .tank {
+
+            position: relative;
+
+            width: 275px;
+
+            height: 380px;
+
+            overflow: hidden;
+
+            border-radius:
+                32px
+                32px
+                22px
+                22px;
+
+            border:
+                2px solid
+                rgba(207,240,255,.38);
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.09),
+                    rgba(255,255,255,.025) 25%,
+                    rgba(255,255,255,.01) 60%,
+                    rgba(0,0,0,.22)
+                );
+
+            box-shadow:
+
+                inset
+                14px 0 35px
+                rgba(255,255,255,.035),
+
+                inset
+                -20px 0 40px
+                rgba(0,0,0,.32),
+
+                0 35px 80px
+                rgba(0,0,0,.45);
+        }
+
+
+        .tank::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 16px;
+
+            top: 20px;
+
+            width: 7px;
+
+            height: 300px;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(255,255,255,.28),
+                    transparent
+                );
+
+            z-index: 20;
+        }
+
+
+        .tank-top {
+
+            position: absolute;
+
+            z-index: 30;
+
+            top: -18px;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            width: 150px;
+
+            height: 38px;
+
+            border:
+                2px solid
+                rgba(207,240,255,.4);
+
+            border-radius: 50%;
+
+            background:
+                rgba(20,30,43,.9);
+        }
+
+
+        /* SENSOR */
+
+        .sensor {
+
+            position: absolute;
+
+            z-index: 35;
+
+            top: 23px;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            width: 11px;
+
+            height: 115px;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    to right,
+                    #71818f,
+                    #d4e4e9,
+                    #71818f
+                );
+        }
+
+
+        .sensor-tip {
+
+            position: absolute;
+
+            bottom: -6px;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            width: 25px;
+
+            height: 12px;
+
+            border-radius: 50%;
+
+            background: var(--aqua);
+
+            box-shadow:
+                0 0 25px
+                rgba(98,231,255,.8);
+        }
+
+
+        /* SENSOR BEAM */
+
+        .beam {
+
+            position: absolute;
+
+            z-index: 28;
+
+            top: 132px;
+
+            left: 50%;
+
+            width: 2px;
+
+            height: 210px;
+
+            transform:
+                translateX(-50%);
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(98,231,255,.65),
+                    rgba(98,231,255,0)
+                );
+
+            animation:
+                beamMove 2s infinite ease-in-out;
+        }
+
+
+        @keyframes beamMove {
+
+            0%,100% {
+                opacity: .25;
+            }
+
+            50% {
+                opacity: .8;
+            }
+        }
+
+
+        /* WATER */
+
+        .water {
+
+            position: absolute;
+
+            left: 0;
+
+            bottom: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            background:
+
+                linear-gradient(
+                    to bottom,
+                    rgba(92,229,255,.88),
+                    rgba(29,133,207,.95)
+                );
+
+            transition:
+                height 1.1s
+                cubic-bezier(.22,.8,.25,1);
+
+            box-shadow:
+                inset 0 14px 25px
+                rgba(255,255,255,.10);
+
+            z-index: 10;
+        }
+
+
+        .water::after {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+
+                radial-gradient(
+                    circle at 25% 25%,
+                    rgba(255,255,255,.12),
+                    transparent 22%
+                ),
+
+                radial-gradient(
+                    circle at 75% 70%,
+                    rgba(0,0,0,.12),
+                    transparent 30%
+                );
+
+            animation:
+                waterDrift 8s infinite ease-in-out;
+        }
+
+
+        @keyframes waterDrift {
+
+            0%,100% {
+                transform: translateX(-7px);
+            }
+
+            50% {
+                transform: translateX(7px);
+            }
+        }
+
+
+        .wave {
+
+            position: absolute;
+
+            top: -14px;
+
+            left: -15%;
+
+            width: 130%;
+
+            height: 28px;
+
+            border-radius: 45%;
+
+            background:
+                rgba(148,243,255,.65);
+
+            animation:
+                waveMove 3.5s infinite
+                ease-in-out;
+        }
+
+
+        .wave.second {
+
+            top: -8px;
+
+            opacity: .3;
+
+            animation-duration: 5s;
+
+            animation-direction: reverse;
+        }
+
+
+        @keyframes waveMove {
+
+            0%,100% {
+                transform:
+                    translateX(-4%)
+                    rotate(0deg);
+            }
+
+            50% {
+                transform:
+                    translateX(5%)
+                    rotate(2deg);
+            }
+        }
+
+
+        /* TANK SCALE */
+
+        .scale {
+
+            position: absolute;
+
+            left: calc(50% + 170px);
+
+            top: 60px;
+
+            height: 355px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+        }
+
+
+        .scale div {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #697887;
+
+            font-size: 9px;
+        }
+
+
+        .scale span {
+
+            width: 22px;
+
+            height: 1px;
+
+            background:
+                rgba(255,255,255,.22);
+        }
+
+
+        /* LEVEL */
+
+        .level {
+
+            text-align: center;
+
+            margin-top: -10px;
+        }
+
+
+        .level-number {
+
+            font-size: 58px;
+
+            font-weight: 700;
+
+            letter-spacing: -3px;
+
+            color: var(--aqua);
+
+            text-shadow:
+                0 0 35px
+                rgba(98,231,255,.15);
+        }
+
+
+        .level-text {
+
+            margin-top: 5px;
+
+            color: var(--muted);
+
+            font-size: 9px;
+
+            letter-spacing: 1.4px;
+        }
+
+
+        /* RIGHT SIDE */
+
+        .right {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 20px;
+        }
+
+
+        /* STATUS */
+
+        .status {
+
+            padding-bottom: 20px;
+        }
+
+
+        .stats {
+
+            padding: 20px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2,1fr);
+
+            gap: 11px;
+        }
+
+
+        .stat {
+
+            padding: 15px;
+
+            min-height: 90px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.06);
+
+            border-radius: 15px;
+
+            background:
+                var(--panel-light);
+        }
+
+
+        .stat-name {
+
+            color: var(--muted);
+
+            font-size: 8px;
+
+            letter-spacing: 1px;
+        }
+
+
+        .stat-value {
+
+            margin-top: 10px;
+
+            font-size: 17px;
+
+            font-weight: 600;
+        }
+
+
+        .safe {
+            color: var(--green);
+        }
+
+        .warning {
+            color: var(--yellow);
+        }
+
+        .danger {
+            color: var(--red);
+        }
+
+
+        /* ALERT */
+
+        .alert {
+
+            margin:
+                0 20px;
+
+            padding: 16px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            border-radius: 15px;
+
+            border:
+                1px solid
+                rgba(255,100,114,.22);
+
+            background:
+                rgba(255,100,114,.055);
+        }
+
+
+        .alert-symbol {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255,100,114,.09);
+
+            font-size: 20px;
+
+            animation:
+                alertPulse 1.3s infinite;
+        }
+
+
+        @keyframes alertPulse {
+
+            0%,100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+
+        .alert h3 {
+
+            color: var(--red);
+
+            font-size: 13px;
+        }
+
+
+        .alert p {
+
+            margin-top: 4px;
+
+            color: var(--muted);
+
+            font-size: 9px;
+        }
+
+
+        /* DLS */
+
+        .dls {
+
+            padding-bottom: 20px;
+        }
+
+
+        .dls-content {
+
+            padding: 20px;
+        }
+
+
+        .algorithm {
+
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            color: #bbaeff;
+
+            background:
+                rgba(155,124,255,.09);
+
+            border:
+                1px solid
+                rgba(155,124,255,.18);
+
+            font-size: 8px;
+
+            letter-spacing: 1px;
+        }
+
+
+        .tree {
+
+            margin-top: 17px;
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            background:
+                rgba(5,8,14,.65);
+
+            border:
+                1px solid
+                rgba(255,255,255,.06);
+        }
+
+
+        .node {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            font-family: Consolas, monospace;
+
+            font-size: 10px;
+
+            color: var(--aqua);
+        }
+
+
+        .node-dot {
+
+            width: 8px;
+
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: var(--aqua);
+
+            box-shadow:
+                0 0 12px
+                rgba(98,231,255,.5);
+        }
+
+
+        .line {
+
+            width: 1px;
+
+            height: 18px;
+
+            margin-left: 4px;
+
+            background:
+                rgba(98,231,255,.25);
+        }
+
+
+        .description {
+
+            margin-top: 15px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            line-height: 1.7;
+        }
+
+
+        .description strong {
+
+            color: #e8faff;
+        }
+
+
+        /* CONTROLS */
+
+        .controls {
+
+            padding: 20px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+            gap: 8px;
+        }
+
+
+        button {
+
+            padding: 11px 5px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.08);
+
+            border-radius: 10px;
+
+            background:
+                rgba(255,255,255,.035);
+
+            color: #dceaf1;
+
+            cursor: pointer;
+
+            font-size: 9px;
+
+            transition:
+                .25s ease;
+        }
+
+
+        button:hover {
+
+            transform:
+                translateY(-2px);
+
+            border-color:
+                rgba(98,231,255,.25);
+
+            background:
+                rgba(98,231,255,.07);
+        }
+
+
+        .simulate {
+
+            grid-column:
+                span 4;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    rgba(98,231,255,.11),
+                    rgba(155,124,255,.11)
+                );
+        }
+
+
+        footer {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #566271;
+
+            font-size: 9px;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media(max-width:950px) {
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .right {
+                display: grid;
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .controls {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+            .simulate {
+                grid-column:
+                    span 2;
+            }
+        }
+
+
+        @media(max-width:650px) {
+
+            header {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+            .right {
+                display: flex;
+            }
+
+            .tank {
+                width: 225px;
+
+                height: 325px;
+            }
+
+            .scale {
+                left:
+                    calc(50% + 135px);
+
+                height: 300px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                💧
+            </div>
+
+            <div>
+
+                <h1>
+                    HydraSense
+                </h1>
+
+                <p>
+                    Intelligent Water Tank Overflow Monitoring
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="system">
+
+            <span class="system-dot"></span>
+
+            AI MONITORING ACTIVE
+
+        </div>
+
+    </header>
+
+
+
+    <main class="dashboard">
+
+
+        <!-- TANK -->
+
+        <section class="panel tank-panel">
+
+            <div class="panel-title">
+
+                <h2>
+                    Live Tank
+                </h2>
+
+                <span class="small-label">
+                    ULTRASONIC SENSOR • SIMULATION
+                </span>
+
+            </div>
+
+
+            <div class="tank-area">
+
+
+                <div class="tank">
+
+
+                    <div class="tank-top"></div>
+
+
+                    <!-- ultrasonic sensor -->
+
+                    <div class="sensor">
+
+                        <div class="sensor-tip"></div>
+
+                    </div>
+
+
+                    <div class="beam"></div>
+
+
+                    <!-- water -->
+
+                    <div
+                        class="water"
+                        id="water"
+                    >
+
+                        <div class="wave"></div>
+
+                        <div class="wave second"></div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- level scale -->
+
+                <div class="scale">
+
+                    <div>
+                        100%
+                        <span></span>
+                    </div>
+
+                    <div>
+                        75%
+                        <span></span>
+                    </div>
+
+                    <div>
+                        50%
+                        <span></span>
+                    </div>
+
+                    <div>
+                        25%
+                        <span></span>
+                    </div>
+
+                    <div>
+                        0%
+                        <span></span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="level">
+
+                <div
+                    class="level-number"
+                    id="percentage"
+                >
+                    100%
+                </div>
+
+                <div class="level-text">
+                    CURRENT WATER LEVEL
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- RIGHT -->
+
+        <div class="right">
+
+
+            <!-- STATUS -->
+
+            <section class="panel status">
+
+                <div class="panel-title">
+
+                    <h2>
+                        System Status
+                    </h2>
+
+                    <span class="small-label">
+                        LIVE TELEMETRY
+                    </span>
+
+                </div>
+
+
+                <div class="stats">
+
+
+                    <div class="stat">
+
+                        <div class="stat-name">
+                            TANK CONDITION
+                        </div>
+
+                        <div
+                            class="stat-value danger"
+                            id="tankState"
+                        >
+                            {{ status }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div class="stat-name">
+                            LEVEL
+                        </div>
+
+                        <div
+                            class="stat-value danger"
+                            id="levelValue"
+                        >
+                            100%
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div class="stat-name">
+                            SENSOR
+                        </div>
+
+                        <div class="stat-value safe">
+                            ACTIVE
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div class="stat-name">
+                            ALGORITHM
+                        </div>
+
+                        <div class="stat-value">
+                            DLS
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="alert">
+
+                    <div class="alert-symbol">
+                        🔔
+                    </div>
+
+                    <div>
+
+                        <h3 id="alertTitle">
+                            {{ alert }}
+                        </h3>
+
+                        <p id="alertDescription">
+                            Maximum water level detected.
+                            Buzzer activation required.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- DLS -->
+
+            <section class="panel dls">
+
+                <div class="panel-title">
+
+                    <h2>
+                        AI Decision Engine
+                    </h2>
+
+                    <span class="algorithm">
+                        DEPTH-LIMITED SEARCH
+                    </span>
+
+                </div>
+
+
+                <div class="dls-content">
+
+
+                    <div class="small-label">
+                        SEARCH PATH GENERATED BY DLS
+                    </div>
+
+
+                    <div class="tree">
+
+
+                        <div class="node">
+
+                            <span class="node-dot"></span>
+
+                            Tank
+
+                        </div>
+
+
+                        <div class="line"></div>
+
+
+                        <div class="node">
+
+                            <span class="node-dot"></span>
+
+                            Overflow
+
+                        </div>
+
+
+                        <div class="line"></div>
+
+
+                        <div class="node">
+
+                            <span class="node-dot"></span>
+
+                            100%
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="description">
+
+                        <strong>
+                            DLS (Depth-Limited Search)
+                        </strong>
+
+                        is the AI algorithmic component
+                        of the monitoring system.
+
+                        The water tank is represented as
+                        a graph of possible water-level
+                        states.
+
+                        The algorithm starts from the
+                        <strong>Tank</strong> node and
+                        searches within a predefined
+                        depth limit.
+
+                        When the search reaches
+                        <strong>100%</strong>, the system
+                        identifies an overflow condition.
+
+                    </div>
+
+
+                    <div
+                        class="path-box"
+                        style="
+                            margin-top:14px;
+                            padding:12px;
+                            border-radius:10px;
+                            background:rgba(0,0,0,.25);
+                            color:var(--aqua);
+                            font-family:Consolas,monospace;
+                            font-size:10px;
+                        "
+                    >
+
+                        {{ path }}
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- HARDWARE SIMULATION -->
+
+            <section class="panel">
+
+                <div class="panel-title">
+
+                    <h2>
+                        Hardware Simulation
+                    </h2>
+
+                    <span class="small-label">
+                        SENSOR CONTROL
+                    </span>
+
+                </div>
+
+
+                <div class="controls">
+
+
+                    <button onclick="setLevel(25)">
+                        25%<br>NORMAL
+                    </button>
+
+
+                    <button onclick="setLevel(50)">
+                        50%<br>NORMAL
+                    </button>
+
+
+                    <button onclick="setLevel(75)">
+                        75%<br>WARNING
+                    </button>
+
+
+                    <button onclick="setLevel(100)">
+                        100%<br>OVERFLOW
+                    </button>
+
+
+                    <button
+                        class="simulate"
+                        onclick="startSimulation()"
+                    >
+                        ▶ START AUTOMATIC SENSOR SIMULATION
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        B.Tech AI Engineering Practical
+        • Flask + DLS + HTML/CSS/JavaScript
+        • Ultrasonic Sensor, LED & Buzzer represented through simulation
+
+    </footer>
+
+</div>
+
+
+
+<script>
+
+
+    let timer = null;
+
+
+    function setLevel(level) {
+
+
+        const water =
+            document.getElementById("water");
+
+        const percentage =
+            document.getElementById("percentage");
+
+        const levelValue =
+            document.getElementById("levelValue");
+
+        const tankState =
+            document.getElementById("tankState");
+
+        const alertTitle =
+            document.getElementById("alertTitle");
+
+        const alertDescription =
+            document.getElementById("alertDescription");
+
+
+        water.style.height =
+            level + "%";
+
+
+        percentage.textContent =
+            level + "%";
+
+
+        levelValue.textContent =
+            level + "%";
+
+
+        /*
+            NORMAL
+        */
+
+        if (level < 75) {
+
+
+            levelValue.className =
+                "stat-value safe";
+
+
+            tankState.textContent =
+                "Safe";
+
+
+            tankState.className =
+                "stat-value safe";
+
+
+            alertTitle.textContent =
+                "WATER LEVEL NORMAL";
+
+
+            alertTitle.style.color =
+                "var(--green)";
+
+
+            alertDescription.textContent =
+                "Tank level is within the safe operating range.";
+
+        }
+
+
+        /*
+            WARNING
+        */
+
+        else if (level < 100) {
+
+
+            levelValue.className =
+                "stat-value warning";
+
+
+            tankState.textContent =
+                "Warning";
+
+
+            tankState.className =
+                "stat-value warning";
+
+
+            alertTitle.textContent =
+                "HIGH WATER LEVEL";
+
+
+            alertTitle.style.color =
+                "var(--yellow)";
+
+
+            alertDescription.textContent =
+                "Water is approaching the overflow threshold.";
+
+        }
+
+
+        /*
+            OVERFLOW
+        */
+
+        else {
+
+
+            levelValue.className =
+                "stat-value danger";
+
+
+            tankState.textContent =
+                "Danger";
+
+
+            tankState.className =
+                "stat-value danger";
+
+
+            alertTitle.textContent =
+                "OVERFLOW ALERT!";
+
+
+            alertTitle.style.color =
+                "var(--red)";
+
+
+            alertDescription.textContent =
+                "100% detected. Buzzer activation required.";
+
+        }
+
+    }
+
+
+
+    function startSimulation() {
+
+
+        if (timer !== null) {
+
+            clearInterval(timer);
+
+        }
+
+
+        const levels =
+            [
+                25,
+                50,
+                75,
+                100,
+                75,
+                50,
+                25
+            ];
+
+
+        let i = 0;
+
+
+        setLevel(levels[i]);
+
+
+        timer = setInterval(() => {
+
+
+            i++;
+
+
+            if (i >= levels.length) {
+
+                i = 0;
+
+            }
+
+
+            setLevel(levels[i]);
+
+
+        }, 1800);
+
+    }
+
+
+    /*
+        Initial state comes from
+        the Flask/DLS result.
+    */
+
+    setLevel(100);
+
+</script>
+
+</body>
+</html>

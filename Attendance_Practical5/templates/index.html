@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>AttendanceCheck</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at 85% 10%, #123b45 0%, transparent 30%),
+                radial-gradient(circle at 10% 90%, #12332d 0%, transparent 28%),
+                #06131c;
+            color: #e6f7f5;
+            min-height: 100vh;
+        }
+
+
+        /* MAIN LAYOUT */
+
+        .app {
+            width: 94%;
+            max-width: 1350px;
+            margin: 28px auto;
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            min-height: calc(100vh - 56px);
+            border: 1px solid rgba(84, 218, 197, 0.18);
+            border-radius: 28px;
+            overflow: hidden;
+            background: rgba(4, 20, 29, 0.82);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+        }
+
+
+        /* SIDEBAR */
+
+        .sidebar {
+            padding: 32px 22px;
+            border-right: 1px solid rgba(84, 218, 197, 0.15);
+            background: rgba(3, 15, 23, 0.75);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .logo span {
+            color: #4ee5c1;
+        }
+
+        .tagline {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #78949d;
+            margin-bottom: 45px;
+        }
+
+        .nav-item {
+            padding: 13px 14px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            color: #8da8b0;
+            font-size: 14px;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(
+                90deg,
+                rgba(53, 214, 176, 0.22),
+                rgba(49, 134, 255, 0.12)
+            );
+            color: #dffff8;
+            border: 1px solid rgba(78, 229, 193, 0.2);
+        }
+
+        .quote {
+            margin-top: auto;
+            color: #55727b;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+
+        /* CONTENT */
+
+        .content {
+            padding: 38px 42px;
+            position: relative;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .eyebrow {
+            color: #4ee5c1;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 9px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 39px;
+            line-height: 1.15;
+        }
+
+        h1 span {
+            color: #4ee5c1;
+        }
+
+        .subtitle {
+            margin-top: 12px;
+            color: #79949d;
+            font-size: 14px;
+        }
+
+
+        /* REQUIREMENT */
+
+        .requirement {
+            padding: 18px 24px;
+            min-width: 190px;
+            border: 1px solid rgba(78, 229, 193, 0.35);
+            border-radius: 18px;
+            background: linear-gradient(
+                135deg,
+                rgba(34, 118, 105, 0.22),
+                rgba(24, 72, 93, 0.2)
+            );
+        }
+
+        .requirement small {
+            display: block;
+            color: #7fa3aa;
+            margin-bottom: 5px;
+        }
+
+        .requirement strong {
+            font-size: 28px;
+            color: #64f2c9;
+        }
+
+
+        /* GRID */
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 22px;
+        }
+
+
+        /* GLASS CARD */
+
+        .card {
+            border: 1px solid rgba(103, 219, 207, 0.18);
+            border-radius: 22px;
+            background: linear-gradient(
+                145deg,
+                rgba(15, 44, 54, 0.78),
+                rgba(5, 25, 36, 0.78)
+            );
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            padding: 27px;
+        }
+
+        .card-title {
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .card-subtitle {
+            color: #718d96;
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+
+        /* FORM */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 17px;
+        }
+
+        label {
+            display: block;
+            color: #9ab5bb;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 14px;
+            border-radius: 11px;
+            border: 1px solid rgba(116, 180, 187, 0.22);
+            background: rgba(3, 20, 29, 0.75);
+            color: white;
+            font-size: 14px;
+        }
+
+        input::placeholder {
+            color: #49646d;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4ee5c1;
+            box-shadow: 0 0 0 3px rgba(78, 229, 193, 0.08);
+        }
+
+
+        /* BUTTONS */
+
+        .add-button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(
+                100deg,
+                #67f2b2,
+                #28c9d9,
+                #3977ff
+            );
+            color: #04131c;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(47, 207, 205, 0.2);
+        }
+
+        .add-button:hover,
+        .check-button:hover {
+            transform: translateY(-1px);
+        }
+
+
+        /* STUDENT LIST */
+
+        .student-list {
+            margin-top: 25px;
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .list-header strong {
+            font-size: 14px;
+        }
+
+        .count {
+            padding: 6px 11px;
+            border-radius: 20px;
+            background: rgba(78, 229, 193, 0.1);
+            color: #65eac8;
+            font-size: 12px;
+        }
+
+        .student-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            background: rgba(3, 21, 30, 0.65);
+            border: 1px solid rgba(103, 180, 187, 0.12);
+        }
+
+        .student-name {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .student-roll {
+            color: #607c85;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        .student-attendance {
+            color: #8ba8ae;
+            font-size: 12px;
+        }
+
+
+        /* DECORATIVE PANEL */
+
+        .visual {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .orb {
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(92, 244, 196, 0.5),
+                    rgba(22, 117, 112, 0.16) 45%,
+                    transparent 70%
+                );
+            position: absolute;
+            right: -55px;
+            top: -45px;
+        }
+
+        .cap {
+            font-size: 72px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 20px rgba(78, 229, 193, 0.25));
+        }
+
+        .visual h2 {
+            font-size: 25px;
+            margin: 0;
+        }
+
+        .visual p {
+            color: #76939b;
+            line-height: 1.7;
+            font-size: 13px;
+            max-width: 310px;
+        }
+
+        .mini-stat {
+            margin-top: 25px;
+            padding: 16px;
+            border-radius: 15px;
+            background: rgba(2, 18, 27, 0.55);
+            border: 1px solid rgba(78, 229, 193, 0.12);
+        }
+
+        .mini-stat span {
+            color: #6d8991;
+            font-size: 11px;
+        }
+
+        .mini-stat strong {
+            display: block;
+            margin-top: 5px;
+            color: #67eecb;
+            font-size: 18px;
+        }
+
+
+        /* CHECK BUTTON */
+
+        .check-button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 16px;
+            border: none;
+            border-radius: 13px;
+            background: linear-gradient(
+                100deg,
+                #67f2b2,
+                #28c9d9,
+                #3977ff
+            );
+            color: #03131c;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(45, 204, 205, 0.2);
+        }
+
+
+        /* RESULTS */
+
+        .results-section {
+            margin-top: 25px;
+        }
+
+        .result-card {
+            margin-bottom: 10px;
+            padding: 17px;
+            border-radius: 15px;
+            background: rgba(5, 27, 37, 0.8);
+            border: 1px solid rgba(103, 219, 207, 0.15);
+        }
+
+        .result-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .result-name {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .roll-text {
+            color: #627f88;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .percentage {
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .eligible {
+            color: #5ce7b7;
+        }
+
+        .not-eligible {
+            color: #ff7180;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .eligible-bg {
+            background: rgba(72, 226, 169, 0.13);
+            color: #5ce7b7;
+        }
+
+        .not-eligible-bg {
+            background: rgba(255, 90, 106, 0.13);
+            color: #ff7180;
+        }
+
+        .message {
+            color: #759199;
+            font-size: 12px;
+            margin-top: 11px;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1000px) {
+
+            .app {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .content {
+                padding: 25px;
+            }
+
+            .top {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🎓 Attendance<span>Check</span>
+        </div>
+
+        <div class="tagline">
+            Track attendance.<br>
+            Know your eligibility.
+        </div>
+
+        <div class="nav-item active">
+            🏠 &nbsp; Dashboard
+        </div>
+
+        <div class="nav-item">
+            👥 &nbsp; Students
+        </div>
+
+        <div class="nav-item">
+            📊 &nbsp; Results
+        </div>
+
+        <div class="quote">
+            “Small steps<br>
+            build big dreams.”
+            <br><br>
+            Stay consistent.
+        </div>
+
+    </aside>
+
+
+    <!-- CONTENT -->
+
+    <main class="content">
+
+
+        <div class="top">
+
+            <div>
+
+                <div class="eyebrow">
+                    STUDENT ATTENDANCE
+                </div>
+
+                <h1>
+                    Examination <span>Eligibility</span>
+                </h1>
+
+                <div class="subtitle">
+                    Check attendance and determine examination eligibility.
+                </div>
+
+            </div>
+
+
+            <div class="requirement">
+
+                <small>Minimum Attendance Required</small>
+
+                <strong>75%</strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard">
+
+
+            <!-- LEFT -->
+
+            <div>
+
+
+                <div class="card">
+
+                    <div class="card-title">
+                        👤 Add Student
+                    </div>
+
+                    <div class="card-subtitle">
+                        Enter the student's attendance details below.
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div>
+
+                            <label>Roll Number</label>
+
+                            <input
+                                type="text"
+                                id="roll"
+                                placeholder="e.g. 101"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>Student Name</label>
+
+                            <input
+                                type="text"
+                                id="name"
+                                placeholder="Enter student name"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>Total Classes</label>
+
+                            <input
+                                type="number"
+                                id="total"
+                                min="1"
+                                placeholder="e.g. 40"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>Classes Attended</label>
+
+                            <input
+                                type="number"
+                                id="attended"
+                                min="0"
+                                placeholder="e.g. 32"
+                            >
+
+                        </div>
+
+
+                    </div>
+
+
+                    <button
+                        class="add-button"
+                        type="button"
+                        onclick="addStudent()"
+                    >
+                        ＋ Add Student
+                    </button>
+
+
+                    <div class="student-list">
+
+                        <div class="list-header">
+
+                            <strong>Added Students</strong>
+
+                            <span
+                                class="count"
+                                id="count"
+                            >
+                                0 / 10
+                            </span>
+
+                        </div>
+
+
+                        <div id="studentList"></div>
+
+                    </div>
+
+
+                    <form method="POST">
+
+                        <div id="hiddenInputs"></div>
+
+                        <button
+                            class="check-button"
+                            type="submit"
+                        >
+                            🔍 &nbsp; Check Eligibility
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- RIGHT -->
+
+            <div class="card visual">
+
+                <div class="orb"></div>
+
+                <div class="cap">
+                    🎓
+                </div>
+
+                <h2>
+                    Attendance Matters.
+                </h2>
+
+                <p>
+                    Keep track of your attendance and find out
+                    whether you meet the minimum requirement
+                    for examination eligibility.
+                </p>
+
+
+                <div class="mini-stat">
+
+                    <span>ELIGIBILITY RULE</span>
+
+                    <strong>
+                        Attendance ≥ 75% → Eligible
+                    </strong>
+
+                </div>
+
+
+                <div class="mini-stat">
+
+                    <span>STUDENT CAPACITY</span>
+
+                    <strong>
+                        Up to 10 Students
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        {% if results %}
+
+        <div class="results-section">
+
+            <div class="card">
+
+                <div class="card-title">
+                    📊 Eligibility Results
+                </div>
+
+                <div class="card-subtitle">
+                    Attendance analysis for submitted students.
+                </div>
+
+
+                {% for result in results %}
+
+                <div class="result-card">
+
+
+                    <div class="result-top">
+
+
+                        <div>
+
+                            <div class="result-name">
+                                {{ result.name }}
+                            </div>
+
+                            <div class="roll-text">
+                                Roll Number: {{ result.roll_number }}
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="percentage
+                            {% if result.status == 'Eligible' %}
+                                eligible
+                            {% else %}
+                                not-eligible
+                            {% endif %}
+                            ">
+
+                                {{ result.attendance }}%
+
+                            </div>
+
+
+                            <span class="status
+                            {% if result.status == 'Eligible' %}
+                                eligible-bg
+                            {% else %}
+                                not-eligible-bg
+                            {% endif %}
+                            ">
+
+                                {{ result.status }}
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="message">
+
+                        {{ result.message }}
+
+                    </div>
+
+
+                </div>
+
+                {% endfor %}
+
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+    </main>
+
+</div>
+
+
+<script>
+
+    let students = [];
+
+
+    function addStudent() {
+
+        if (students.length >= 10) {
+
+            alert("Maximum of 10 students can be added.");
+
+            return;
+
+        }
+
+
+        let roll =
+            document.getElementById("roll").value;
+
+        let name =
+            document.getElementById("name").value;
+
+        let total =
+            document.getElementById("total").value;
+
+        let attended =
+            document.getElementById("attended").value;
+
+
+        if (!roll || !name || !total || !attended) {
+
+            alert("Please fill in all student details.");
+
+            return;
+
+        }
+
+
+        if (Number(attended) > Number(total)) {
+
+            alert(
+                "Classes attended cannot be greater than total classes."
+            );
+
+            return;
+
+        }
+
+
+        students.push({
+
+            roll: roll,
+            name: name,
+            total: total,
+            attended: attended
+
+        });
+
+
+        displayStudents();
+
+        clearFields();
+
+    }
+
+
+    function displayStudents() {
+
+        let list =
+            document.getElementById("studentList");
+
+        list.innerHTML = "";
+
+
+        students.forEach(function(student) {
+
+            list.innerHTML += `
+
+                <div class="student-item">
+
+                    <div>
+
+                        <div class="student-name">
+                            ${student.name}
+                        </div>
+
+                        <div class="student-roll">
+                            Roll No. ${student.roll}
+                        </div>
+
+                    </div>
+
+                    <div class="student-attendance">
+                        ${student.attended} / ${student.total}
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+
+        document.getElementById("count").innerText =
+            students.length + " / 10";
+
+
+        updateHiddenInputs();
+
+    }
+
+
+    function updateHiddenInputs() {
+
+        let hidden =
+            document.getElementById("hiddenInputs");
+
+        hidden.innerHTML = "";
+
+
+        students.forEach(function(student, index) {
+
+            hidden.innerHTML += `
+
+                <input
+                    type="hidden"
+                    name="roll_number_${index}"
+                    value="${student.roll}"
+                >
+
+                <input
+                    type="hidden"
+                    name="name_${index}"
+                    value="${student.name}"
+                >
+
+                <input
+                    type="hidden"
+                    name="total_classes_${index}"
+                    value="${student.total}"
+                >
+
+                <input
+                    type="hidden"
+                    name="attended_classes_${index}"
+                    value="${student.attended}"
+                >
+
+            `;
+
+        });
+
+    }
+
+
+    function clearFields() {
+
+        document.getElementById("roll").value = "";
+
+        document.getElementById("name").value = "";
+
+        document.getElementById("total").value = "";
+
+        document.getElementById("attended").value = "";
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

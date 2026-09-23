@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | AI Practical Hub</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(122, 42, 74, 0.35), transparent 35%),
+                radial-gradient(circle at 85% 80%, rgba(91, 45, 105, 0.30), transparent 35%),
+                linear-gradient(135deg, #120c14, #24121d 50%, #171019);
+            color: #fff;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.035);
+            top: -170px;
+            right: -130px;
+            filter: blur(2px);
+        }
+
+        body::after {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(174, 92, 130, 0.08);
+            bottom: -120px;
+            left: -80px;
+        }
+
+        .login-wrapper {
+            position: relative;
+            z-index: 2;
+            width: 420px;
+            max-width: 92%;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .brand-icon {
+            width: 68px;
+            height: 68px;
+            margin: 0 auto 14px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 31px;
+            background: linear-gradient(145deg, #8d4164, #51283f);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+        }
+
+        .brand h1 {
+            font-size: 28px;
+            letter-spacing: 0.3px;
+            margin-bottom: 6px;
+        }
+
+        .brand p {
+            color: #cbbfc6;
+            font-size: 14px;
+        }
+
+        .login-card {
+            background: rgba(35, 24, 31, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 24px;
+            padding: 34px;
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(14px);
+        }
+
+        .login-card h2 {
+            font-size: 23px;
+            margin-bottom: 7px;
+        }
+
+        .subtitle {
+            color: #aa9da5;
+            font-size: 14px;
+            margin-bottom: 27px;
+        }
+
+        .field {
+            margin-bottom: 19px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #ddd3d8;
+            margin-bottom: 8px;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 17px;
+            opacity: 0.75;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 15px 14px 45px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.055);
+            color: #fff;
+            outline: none;
+            font-size: 14px;
+            transition: 0.25s ease;
+        }
+
+        input::placeholder {
+            color: #82757d;
+        }
+
+        input:focus {
+            border-color: #a65b7e;
+            background: rgba(255, 255, 255, 0.075);
+            box-shadow: 0 0 0 3px rgba(166, 91, 126, 0.12);
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 5px;
+            background: linear-gradient(135deg, #9b4f73, #703650);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s ease;
+            box-shadow: 0 10px 25px rgba(112, 54, 80, 0.28);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(112, 54, 80, 0.38);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .register {
+            text-align: center;
+            margin-top: 23px;
+            color: #9f9299;
+            font-size: 13px;
+        }
+
+        .register a {
+            color: #d88eac;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 19px;
+            color: #746a70;
+            font-size: 11px;
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 27px 23px;
+            }
+
+            .brand h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-wrapper">
+
+        <div class="brand">
+            <div class="brand-icon">🤖</div>
+
+            <h1>AI Practical Hub</h1>
+
+            <p>Your practical workspace • Learn · Build · Explore</p>
+        </div>
+
+        <div class="login-card">
+
+            <h2>Welcome back 👋</h2>
+
+            <p class="subtitle">
+                Sign in to access your practical dashboard.
+            </p>
+
+            <form method="POST">
+
+                <div class="field">
+                    <label>Roll Number</label>
+
+                    <div class="input-box">
+                        <span class="input-icon">🪪</span>
+
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="Enter your roll number"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Password</label>
+
+                    <div class="input-box">
+                        <span class="input-icon">🔐</span>
+
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <button type="submit">
+                    Login to Dashboard →
+                </button>
+
+            </form>
+
+            <div class="register">
+                Not registered yet?
+                <a href="/register">Create an account</a>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            AI Engineering • Practical Workspace
+        </div>
+
+    </div>
+
+</body>
+</html>

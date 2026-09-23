@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {{ practical.title }} - AI Practical Hub
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <div>
+
+            <h1>
+                AI Practical Hub
+            </h1>
+
+            <p>
+                Practical Workspace
+            </p>
+
+        </div>
+
+
+        <a href="{{ url_for('dashboard') }}"
+           class="logout-btn">
+
+            ← Dashboard
+
+        </a>
+
+    </header>
+
+
+
+    <!-- PRACTICAL HEADER -->
+
+    <section class="welcome">
+
+        <p class="small-title">
+            {{ practical.category }}
+        </p>
+
+
+        <h2>
+
+            {{ practical.emoji }}
+
+            {{ practical.title }}
+
+        </h2>
+
+
+        <p>
+            {{ practical.description }}
+        </p>
+
+    </section>
+
+
+
+    <!-- PRACTICAL CONTENT -->
+
+    <section class="practicals">
+
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    Practical Details
+                </h2>
+
+                <p>
+                    Your laboratory work
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="practical-card">
+
+
+            <div class="card-top">
+
+                <div class="card-number">
+
+                    {{ "%02d"|format(practical.id) }}
+
+                </div>
+
+
+                <div class="category">
+
+                    {{ practical.category }}
+
+                </div>
+
+            </div>
+
+
+
+            <div class="card-icon">
+
+                {{ practical.emoji }}
+
+            </div>
+
+
+
+            <h3>
+
+                {{ practical.title }}
+
+            </h3>
+
+
+
+            <p>
+
+                {{ practical.description }}
+
+            </p>
+
+
+
+            <!-- PROGRAM FILES -->
+
+            <div class="program-section">
+
+                <h3>
+                    Program Files
+                </h3>
+
+
+                {% if files_to_display %}
+
+
+                    {% for file in files_to_display %}
+
+                    <div class="code-file">
+
+                        <h4>
+                            📄 {{ file.name }}
+                        </h4>
+
+
+                        <pre class="program-code"><code>{{ file.content }}</code></pre>
+
+                    </div>
+
+                    {% endfor %}
+
+
+                {% else %}
+
+                    <p>
+                        No program files are available
+                        for this practical.
+                    </p>
+
+                {% endif %}
+
+
+            </div>
+
+
+
+            <a href="{{ url_for('dashboard') }}"
+               class="open-btn">
+
+                ← Back to Practicals
+
+            </a>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- FOOTER -->
+
+    <footer class="dashboard-footer">
+
+        <p>
+            AI Engineering • Practical Hub
+        </p>
+
+        <p>
+            {{ practical.title }}
+        </p>
+
+    </footer>
+
+
+</div>
+
+
+</body>
+
+</html>

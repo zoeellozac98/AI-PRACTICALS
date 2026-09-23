@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Practical Hub</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard">
+
+
+    <!-- =========================
+         TOP BAR
+    ========================== -->
+
+    <header class="topbar">
+
+        <div>
+
+            <h1>
+                AI Practical Hub
+            </h1>
+
+            <p>
+                Student Practical Dashboard
+            </p>
+
+        </div>
+
+
+        <a href="{{ url_for('logout') }}"
+           class="logout-btn">
+
+            Logout
+
+        </a>
+
+    </header>
+
+
+
+    <!-- =========================
+         WELCOME SECTION
+    ========================== -->
+
+    <section class="welcome">
+
+        <p class="small-title">
+            WELCOME BACK
+        </p>
+
+
+        <h2>
+            {{ username }}
+        </h2>
+
+
+        <p>
+            Your AI laboratory work,
+            organised in one place.
+        </p>
+
+    </section>
+
+
+
+    <!-- =========================
+         PRACTICALS SECTION
+    ========================== -->
+
+    <section class="practicals">
+
+
+        <div class="section-heading">
+
+
+            <div>
+
+                <h2>
+                    My Practicals
+                </h2>
+
+                <p>
+                    Explore your laboratory work
+                </p>
+
+            </div>
+
+
+            <div class="practical-count">
+
+                {{ practicals|length }} WORKS
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             PRACTICAL GRID
+        ========================== -->
+
+        <div class="practical-grid">
+
+
+            {% for practical in practicals %}
+
+
+            <a href="{{ url_for(
+                'view_practical',
+                practical_id=practical.id
+            ) }}"
+               class="practical-card">
+
+
+                <!-- Card top -->
+
+                <div class="card-top">
+
+
+                    <div class="card-number">
+
+                        {{ "%02d"|format(practical.id) }}
+
+                    </div>
+
+
+                    <div class="category">
+
+                        {{ practical.category }}
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- Emoji -->
+
+                <div class="card-icon">
+
+                    {{ practical.emoji }}
+
+                </div>
+
+
+
+                <!-- Title -->
+
+                <h3>
+
+                    {{ practical.title }}
+
+                </h3>
+
+
+
+                <!-- Description -->
+
+                <p>
+
+                    {{ practical.description }}
+
+                </p>
+
+
+
+                <!-- Button -->
+
+                <span class="open-btn">
+
+                    View Practical →
+
+                </span>
+
+
+            </a>
+
+
+            {% else %}
+
+
+            <!-- Empty state -->
+
+            <div class="empty-message">
+
+                <h3>
+                    No practicals added yet.
+                </h3>
+
+                <p>
+                    Your practical work will
+                    appear here.
+                </p>
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer class="dashboard-footer">
+
+        <p>
+            AI Engineering • Practical Hub
+        </p>
+
+        <p>
+            Keep building. Keep learning.
+        </p>
+
+    </footer>
+
+
+</div>
+
+
+</body>
+
+</html>

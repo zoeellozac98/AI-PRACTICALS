@@ -1,0 +1,248 @@
+{
+    "intents": [
+        {
+            "tag": "greeting",
+            "patterns": [
+                "Hello",
+                "Hi",
+                "Hey",
+                "Good morning",
+                "Good afternoon",
+                "Good evening",
+                "Is anyone there?",
+                "Hello chatbot",
+                "Hi chatbot",
+                "Hey there",
+                "How are you?",
+                "How are you doing?",
+                "Nice to meet you",
+                "Greetings",
+                "Can you help me?",
+                "Are you there?"
+            ],
+            "responses": [
+                "Hello! How can I help you?",
+                "Hi! What can I do for you?",
+                "Hey! How can I assist you today?",
+                "Hello! What would you like me to do?"
+            ]
+        },
+        {
+            "tag": "email_search",
+            "patterns": [
+                "Find my emails",
+                "Search my emails",
+                "Show me my emails",
+                "Find emails from John",
+                "Can you find emails from John?",
+                "Find an email from John",
+                "Look for emails from John",
+                "Search for an email",
+                "I want to find an email",
+                "Can you search my inbox?",
+                "Search my inbox",
+                "Look through my emails",
+                "Look for an email",
+                "Find an email",
+                "Help me find an email",
+                "I need to search my emails",
+                "Can you look for an email?",
+                "Search for emails",
+                "Find messages from John",
+                "Find my messages",
+                "Can you find a message?",
+                "Where can I find my emails?",
+                "I need to find an email",
+                "Search my mailbox"
+            ],
+            "responses": [
+                "Sure! I can help you search your emails.",
+                "What email or sender would you like me to search for?",
+                "Sure, tell me what you want to find in your inbox.",
+                "I can help you find an email. What should I search for?"
+            ]
+        },
+        {
+            "tag": "send_email",
+            "patterns": [
+                "Send an email",
+                "I want to send an email",
+                "Compose an email",
+                "Write an email",
+                "Send a message by email",
+                "Help me send an email",
+                "I need to send an email",
+                "Can you send an email?",
+                "I want to compose an email",
+                "Help me write an email",
+                "Write a new email",
+                "Create an email",
+                "Send a message",
+                "I need to email someone",
+                "Can you help me send an email?",
+                "I want to email someone",
+                "How do I send an email?",
+                "Prepare an email",
+                "Draft an email",
+                "Create a new email"
+            ],
+            "responses": [
+                "Sure! Who would you like to send the email to?",
+                "I can help you compose an email. Who is the recipient?",
+                "Sure! Let's prepare your email.",
+                "Of course! Who should receive the email?"
+            ]
+        },
+        {
+            "tag": "delete_email",
+            "patterns": [
+                "Delete an email",
+                "Remove an email",
+                "Delete my email",
+                "I want to delete a message",
+                "Remove this email from my inbox",
+                "I need to delete an email",
+                "Can you delete an email?",
+                "Delete this email",
+                "Remove this email",
+                "Get rid of this email",
+                "Delete a message",
+                "Remove a message",
+                "I want to remove an email",
+                "Help me delete an email",
+                "Can you remove this email?",
+                "I need to remove a message",
+                "How do I delete an email?",
+                "Delete this message"
+            ],
+            "responses": [
+                "Sure. Which email would you like to delete?",
+                "I can help you remove an email.",
+                "Please tell me which email you want to delete.",
+                "Sure! Which message should I remove?"
+            ]
+        },
+        {
+            "tag": "unread_email",
+            "patterns": [
+                "Show unread emails",
+                "Do I have unread emails?",
+                "Find unread messages",
+                "How many unread emails do I have?",
+                "Show me unread messages",
+                "Check my unread emails",
+                "Are there any unread emails?",
+                "Do I have any unread messages?",
+                "Show my unread messages",
+                "Find my unread emails",
+                "How many unread messages are there?",
+                "Check for unread messages",
+                "Can you show unread emails?",
+                "I want to see unread emails",
+                "Which emails are unread?",
+                "Tell me about my unread emails",
+                "Are any of my emails unread?",
+                "Check my inbox for unread emails"
+            ],
+            "responses": [
+                "Sure! I can help you check your unread emails.",
+                "Let me help you find your unread messages.",
+                "I can check the unread emails for you.",
+                "Sure! Let's check your unread messages."
+            ]
+        },
+        {
+            "tag": "help",
+            "patterns": [
+                "Help me",
+                "What can you do?",
+                "What are your features?",
+                "How can you help me?",
+                "What can I ask you?",
+                "What can you help me with?",
+                "Show me what you can do",
+                "What features do you have?",
+                "How does this chatbot work?",
+                "What can I use you for?",
+                "Tell me what you can do",
+                "I need help",
+                "Can you help me?",
+                "What services do you provide?",
+                "What commands can I use?"
+            ],
+            "responses": [
+                "I can help with email searching, sending, deleting, and checking unread emails.",
+                "You can ask me about searching emails, sending emails, deleting emails, or unread messages.",
+                "I can help you manage common email-related tasks."
+            ]
+        },
+        
+        {
+            "tag": "study_help",
+            "patterns": [
+                "Help me study",
+                "How should I prepare for exams?",
+                "Give me study tips",
+                "Help me revise",
+                "How can I manage my assignments?",
+                "I need help with my studies",
+                "How do I prepare for a test?",
+                "Help me make a revision plan",
+                "I have too much coursework",
+                "How can I study effectively?"
+            ],
+            "responses": [
+                "Start by listing your topics, prioritising the difficult ones, and practising questions.",
+                "Try short focused study sessions with breaks. Test yourself instead of only rereading notes.",
+                "Break your revision into small tasks and set a realistic deadline for each one."
+            ]
+        },
+        {
+            "tag": "task_planning",
+            "patterns": [
+                "Help me organise my tasks",
+                "What should I do first?",
+                "Help me prioritise my work",
+                "I have too many things to do",
+                "Make a plan for my tasks",
+                "How do I manage my time?",
+                "Help me organise my schedule",
+                "I need to plan my week",
+                "How can I meet my deadlines?",
+                "Help me manage my workload"
+            ],
+            "responses": [
+                "List your tasks and deadlines first, then handle the most urgent and important tasks.",
+                "Break large tasks into smaller steps and assign a realistic time to each step.",
+                "Start with your nearest deadline, but reserve some time for ongoing responsibilities."
+            ]
+        },
+
+        {
+            "tag": "goodbye",
+            "patterns": [
+                "Bye",
+                "Goodbye",
+                "See you later",
+                "I have to go",
+                "Talk to you later",
+                "Bye chatbot",
+                "Goodbye chatbot",
+                "See you",
+                "I am leaving",
+                "I need to go",
+                "Catch you later",
+                "Have a good day",
+                "That's all",
+                "Thank you goodbye",
+                "Talk to you soon"
+            ],
+            "responses": [
+                "Goodbye! Have a great day.",
+                "See you later!",
+                "Bye! Come back anytime.",
+                "Goodbye! It was nice helping you."
+            ]
+        }
+    ]
+}
